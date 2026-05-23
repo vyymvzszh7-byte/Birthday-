@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise!</title>
+    <style>
+        /* CSS Styling to match the cute, clean look */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #4a4a4a;
+        }
+
+        .card-container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            border: 1px solid #ffe4e1;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h2 {
+            color: #d14770;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #ff6b8b;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ff4772;
+            transform: scale(1.05);
+        }
+
+        /* Balloon Section Styles */
+        .balloon-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .balloon {
+            width: 50px;
+            height: 65px;
+            background: #ffb6c1;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        .balloon:nth-child(2) { background: #ba55d3; }
+        .balloon:nth-child(3) { background: #20b2aa; }
+        .balloon:nth-child(4) { background: #ff7f50; }
+
+        .popped {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .hidden-message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #d14770;
+            margin-top: 20px;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div id="screen1" class="screen active">
+            <div style="font-size: 50px; margin-bottom: 10px;">🐼</div>
+            <h2>A Cutiepie was born today!</h2>
+            <p>Yes, it's YOU! A little surprise awaits...</p>
+            <button onclick="nextScreen(2)">Start the Surprise</button>
+        </div>
+
+        <div id="screen2" class="screen">
+            <h2>Pop all 4 balloons!</h2>
+            <div class="balloon-container">
+                <div class="balloon" id="b1" onclick="popBalloon('b1', 'You')">🎈</div>
+                <div class="balloon" id="b2" onclick="popBalloon('b2', 'Are')">🎈</div>
+                <div class="balloon" id="b3" onclick="popBalloon('b3', 'The')">🎈</div>
+                <div class="balloon" id="b4" onclick="popBalloon('b4', 'Best! ❤️')">🎈</div>
+            </div>
+            <div class="hidden-message" id="revealMessage"></div>
+            <button id="nextBtn" style="display: none;" onclick="nextScreen(3)">Next</button>
+        </div>
+
+        <div id="screen3" class="screen">
+            <h2>Happy Birthday!</h2>
+            <p style="line-height: 1.6;">
+                You deserve all the happiness, love, and smiles in the world today and always. 
+                Thank you for being such an incredible person!
+            </p>
+            <div style="font-size: 50px; margin: 15px 0; cursor: pointer;" onclick="openGift()">🎁</div>
+            <p id="giftMessage" style="font-weight: bold; color: #ff6b8b;"></p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript logic to handle transition and interactivity
+        let poppedCount = 0;
+        let finalMessage = [];
+
+        function nextScreen(screenNum) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            // Show the selected screen
+            document.getElementById('screen' + screenNum).classList.add('active');
+        }
+
+        function popBalloon(id, word) {
+            let balloon = document.getElementById(id);
+            if (!balloon.classList.contains('popped')) {
+                balloon.classList.add('popped');
+                poppedCount++;
+                
+                finalMessage.push(word);
+                document.getElementById('revealMessage').innerText = finalMessage.join(' ');
+
+                if (poppedCount === 4) {
+                    document.getElementById('nextBtn').style.display = 'inline-block';
+                }
+            }
+        }
+
+        function openGift() {
+            document.getElementById('giftMessage').innerText = "Lots of love for you! 🎉🎂";
+        }
+    </script>
+</body>
+</html>
